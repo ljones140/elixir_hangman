@@ -12,8 +12,8 @@ defmodule GameTest do
   end
 
   test "new_game letters are all lowercase a to z" do
-    game = Game.new_game()
-    assert Enum.all?(game.letters, &(Regex.match?(~r/[a-z]/, &1)))
+    assert Game.new_game().letters
+           |> Enum.all?(&(Regex.match?(~r/[a-z]/, &1)))
   end
 
   test "state isn't changes to :won or :lost game" do
