@@ -16,7 +16,25 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+    - name: Setup Docker
+      uses:  docker/setup-buildx-action@v3
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: simple_go_api
+    - name: Build image
+      uses: docker/build-push-action@v6
+      with:
+        tags: elixir-hangman:latest
+        outputs: type=docker,dest=/tmp/elixir-hangman.tar
+        push: false
+    - name: Load Image
+      run: docker load --input /tmp/elixir-hangman.tar
     - name: Generate SBOM
       uses: anchore/sbom-action@v0
       with:
-        path: .
+        image: elixir-hangman:latest
+        dependency-snapshot: true
+        upload-artifact: true
+        
