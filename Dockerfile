@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # Copy the mix.exs and mix.lock files to the working directory
 COPY mix.exs mix.lock ./
 
+# Copy the dictionary dependency
+COPY ../dictionary ./dictionary
+
 # Install mix dependencies
 RUN mix do local.hex --force, local.rebar --force, deps.get
 
