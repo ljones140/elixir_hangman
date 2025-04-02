@@ -1,0 +1,23 @@
+name: SYFT ACTION UPLOAD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  SYFT-ACTION-SBOM-upload:
+
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      run: docker load --input /tmp/simple_go_api.tar
+    - name: Generate SBOM
+      uses: anchore/sbom-action@v0
+      with:
+        path: .
